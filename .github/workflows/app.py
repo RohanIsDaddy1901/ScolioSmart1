@@ -1,24 +1,22 @@
 import streamlit as st
 import pandas as pd
 import joblib
+from pathlib import Path
 
 st.set_page_config(page_title="Scoliosis Trend & Cobb Predictor", layout="centered")
 
-st.title("Scoliosis Trend and Cobb Angle Predictor")
-st.write(
-    "Prototype tool that predicts scoliosis trend "
-    "(improving / stable / worsening) and estimated future Cobb angle."
-)
+BASE_DIR = Path(__file__).resolve().parent
 
 @st.cache_resource
 def load_models():
-    clf = joblib.load("trend_classifier.pkl")
-    reg = joblib.load("cobb_regressor.pkl")
+    clf = joblib.load(BASE_DIR / "trend_classifier.pkl")
+    reg = joblib.load(BASE_DIR / "cobb_regressor.pkl")
     return clf, reg
 
 clf, reg = load_models()
 
-st.subheader("Enter patient / session data")
+st.title("Scoliosis Trend and Cobb Angle Predictor")
+st.write("Prototype tool that predicts scoliosis trend and estimated future Cobb angle.")
 
 col1, col2 = st.columns(2)
 
